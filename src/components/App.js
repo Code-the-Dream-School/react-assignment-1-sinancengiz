@@ -5,6 +5,7 @@ import Board from './Board'; // Import a component from another file
 import Info from './Info'; // Import a component from another file
 import x_image from '../images/1.png'; 
 import o_image from '../images/0.png'; 
+import {player_x, player_o, winner_coordinate_list} from '../constants'
 
 
 class Game extends Component {
@@ -71,13 +72,12 @@ class Game extends Component {
 
   start_button = () => {
     /* Start button function to do form*/
-    this.setState( prevState => (
+    this.setState( 
       {
         form_hide:"block",
         button_hide:"hiden"
       }
    )
-  ) 
   }
 
   new_game_button = () => {
@@ -230,44 +230,38 @@ class Game extends Component {
 
 check_winner = (game_board,current_player) => {
   /* function checks if any player won the game */
+  let hasPlayerWon = false;
     this.setState( prevState => {
-      if(game_board[0][0].cell_value === current_player && 
-        game_board[0][1].cell_value === current_player &&
-        game_board[0][2].cell_value === current_player ||
-        game_board[1][0].cell_value === current_player && 
-        game_board[1][1].cell_value === current_player &&
-        game_board[1][2].cell_value === current_player ||
-        game_board[2][0].cell_value === current_player && 
-        game_board[2][1].cell_value === current_player &&
-        game_board[2][2].cell_value === current_player||
-        game_board[0][0].cell_value === current_player && 
-        game_board[1][0].cell_value === current_player &&
-        game_board[2][0].cell_value === current_player||
-        game_board[0][1].cell_value === current_player && 
-        game_board[1][1].cell_value === current_player &&
-        game_board[2][1].cell_value === current_player||
-        game_board[0][2].cell_value === current_player && 
-        game_board[1][2].cell_value === current_player &&
-        game_board[2][2].cell_value === current_player||
-        game_board[0][0].cell_value === current_player && 
-        game_board[1][1].cell_value === current_player &&
-        game_board[2][2].cell_value === current_player||
-        game_board[2][0].cell_value === current_player && 
-        game_board[1][1].cell_value === current_player &&
-        game_board[0][2].cell_value === current_player){
-          if(current_player === "player_X"){
-            prevState.the_winner = prevState.player_X.toUpperCase()
-          }else{
-            prevState.the_winner = prevState.player_O.toUpperCase()
+      for(let i=0; i<winner_coordinate_list.length; i++){
+        hasPlayerWon = winner_coordinate_list[i].every((coordinates) => {
+          let x_coordinate = coordinates[0];
+          let y_coordinate = coordinates[1];
+          if ( game_board[x_coordinate][y_coordinate].cell_value === current_player ){
+            return true;
+          } else {
+            return false;
           }
-          
-          return {
-            board_hide:"hiden",
-            winner_show:"block"
-          };
+        })
+        if (hasPlayerWon) {
+          break;
         }
-
-
+      }
+      if (hasPlayerWon) {
+        const newState = {};
+      
+        if(current_player === player_x){
+          newState.the_winner = prevState.player_X.toUpperCase()
+        }else{
+          newState.the_winner = prevState.player_O.toUpperCase()
+        }
+        
+        return {
+          ...newState,
+          board_hide:"hiden",
+          winner_show:"block"
+        };
+    
+      }
     });
   }
 
@@ -280,10 +274,10 @@ check_winner = (game_board,current_player) => {
         prevState.game_board[cell_coordinate[0]][cell_coordinate[1]].cell_value = prevState.turn
         this.check_winner(prevState.game_board,prevState.turn)
 
-        if(prevState.turn == "player_X"){
-          prevState.turn= "player_O"
+        if(prevState.turn == player_x){
+          prevState.turn= player_o
         }else{
-          prevState.turn= "player_X"
+          prevState.turn= player_x
         }
         
       }
@@ -307,7 +301,7 @@ check_winner = (game_board,current_player) => {
         {/* this is header */}
           <Header></Header>
         </div>
-        <div className={this.state.button_hide} >
+        <div className={this.state.button_hide}>
           {/* start game button */}
           <button className="btn btn-primary" onClick={this.start_button.bind(this)}>Start</button>
         </div>
