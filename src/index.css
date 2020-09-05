@@ -19,6 +19,8 @@ code {
  width: 80%;
  margin: auto;
  min-height: 100vh;
+ text-align: center;
+ padding-top:2%;
 }
 
 .center{
@@ -47,13 +49,22 @@ code {
 }
 
 .cell{
+  border-style: solid;
+  border-color: black;
+  border-radius: 5%;
   color: white;
-  background: black;
-  margin: 0;
+  margin: 2px;
   padding: 0;
+  height: 100px;
+  width: 100px;
+  background-color: lightblue;
 }
 
-.row{
+.cell:hover{
+  background-color: lightgreen;
+}
+
+.cell_row{
 display: flex;
 flex-wrap: nowrap;
 }
@@ -70,11 +81,65 @@ flex-wrap: nowrap;
 .board{
   display: flex;
   flex-direction: column;
-  align-items: center;
   margin-bottom: 2%;
+  align-items: center;
 }
 
 .logo{
   width: 150px;
   height: 150px;
+}
+
+
+#header_id{
+  height: 200px;
+}
+
+.hiden{
+  display: none;
+}
+
+.form_name_image{
+  width: 20px;
+}
+
+label{
+  text-align: left;
+}
+
+#names_on_board_div{
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+#winner_page{
+  padding-top: 50px;
+  height: 300px;
+  background-color: lightblue;
+}
+
+button{
+  margin-top: 20px;
+}
+
+#info_form_div{
+  background-color: lightblue;
+
+
+}
+
+form{
+  background-color: lightblue;
+  width: 500px;
+  margin: 0 auto;
+  flex:left;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+label{
+  margin-top: 20px;
+}
+
+.new_reset_button{
+  margin-right: 5%;
 }
